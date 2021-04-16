@@ -6,9 +6,9 @@ from .models import Task
 
 def home(request):
 	form = TaskForm()
-	tasks = Task.objects.filter(user=request.user)
 	if not request.user.is_authenticated:
-		return redirect("/login/")
+		return render(request,"register/login.html",{})
+	tasks = Task.objects.filter(user=request.user)
 	if request.method == "POST":
 		form = TaskForm(request.POST)
 		if form.is_valid():
@@ -20,6 +20,9 @@ def home(request):
 	return render(request,"todo/home.html",context)
 
 def edit(request,id):
+	if not request.user.is_authenticated:
+		return render(request,"register/login.html",{})
+
 	instance = Task.objects.get(id=id)
 	form = TaskForm(instance=instance)
 	context = {"id":id,"form":form}
@@ -36,6 +39,8 @@ def edit(request,id):
 	return render(request,"todo/edit.html",context)
 
 def delete(request,id):
+	if not request.user.is_authenticated:
+		return render(request,"register/login.html",{})
 	instance = Task.objects.get(id=id)
 
 	if request.method == "POST":
