@@ -27,19 +27,21 @@ def register(request):
 def login(request):
 	if request.user.is_authenticated:
 		return redirect("/")
-	if not request.user.is_authenticated and request.method == "POST":
-		username = request.POST.get("username")
-		password = request.POST.get("password")
+	if not request.user.is_authenticated:
+		if request.method == "POST":
+			username = request.POST.get("username")
+			password = request.POST.get("password")
 
-		user = authenticate(request,username=username,password=password)
+			user = authenticate(request,username=username,password=password)
 
-		if user is not None:
-			auth_login(request,user)
-			return redirect("/")
+			if user is not None:
+				auth_login(request,user)
+				return redirect("/")
+			else:
+				message = "Invalid Credentials"
+				return render(request,"register/login.html",{"message":message})
 		else:
-			message = "Invalid Credentials"
-			return render(request,"register/login.html",{"message":message})
-			
+			return render(request,"register/register.html",{})
 	return render(request,"register/login.html",{})
 
 def logout_request(request):
