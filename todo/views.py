@@ -8,7 +8,7 @@ def home(request):
 	form = TaskForm()
 	tasks = Task.objects.filter(user=request.user)
 	if not request.user.is_authenticated:
-		return redirect("/login")
+		return redirect("/login/")
 	if request.method == "POST":
 		form = TaskForm(request.POST)
 		if form.is_valid():
