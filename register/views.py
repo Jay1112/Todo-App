@@ -41,7 +41,7 @@ def login(request):
 				message = "Invalid Credentials"
 				return render(request,"register/login.html",{"message":message})
 		else:
-			return render(request,"register/register.html",{})
+			return render(request,"register/login.html",{})
 	return render(request,"register/login.html",{})
 
 def logout_request(request):
