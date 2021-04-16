@@ -7,7 +7,7 @@ from .models import Task
 def home(request):
 	form = TaskForm()
 	if not request.user.is_authenticated:
-		return render(request,"register/login.html",{})
+		return redirect("/login/")
 	tasks = Task.objects.filter(user=request.user)
 	if request.method == "POST":
 		form = TaskForm(request.POST)
@@ -21,7 +21,7 @@ def home(request):
 
 def edit(request,id):
 	if not request.user.is_authenticated:
-		return render(request,"register/login.html",{})
+		return redirect("/login/")
 
 	instance = Task.objects.get(id=id)
 	form = TaskForm(instance=instance)
@@ -40,7 +40,7 @@ def edit(request,id):
 
 def delete(request,id):
 	if not request.user.is_authenticated:
-		return render(request,"register/login.html",{})
+		return redirect("/login/")
 	instance = Task.objects.get(id=id)
 
 	if request.method == "POST":
